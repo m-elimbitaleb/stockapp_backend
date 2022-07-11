@@ -1,0 +1,59 @@
+/*
+ * Copyright (c) 2022. stockapp.
+ * Proprietary source code; any copy or modification is prohibited.
+ *
+ * @author Moulaye Abderrahmane <moolsbytheway@gmail.com>
+ *
+ */
+
+plugins {
+    id 'org.springframework.boot' version '2.6.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'idea'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+
+group = 'com.stockapp'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+bootJar {
+    launchScript()
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    implementation "org.springframework:spring-context-support"
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'org.liquibase:liquibase-core'
+    implementation 'org.postgresql:postgresql:9.4.1212'
+    implementation 'com.h2database:h2:1.4.191'
+    implementation 'net.bull.javamelody:javamelody-core:1.77.0'
+    implementation 'com.auth0:java-jwt:3.4.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'commons-io:commons-io:2.6'
+    implementation group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.12.22'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
+
+    implementation 'org.zalando.stups:spring-boot-starter-guava-eventbus:0.5.4'
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+}
+

@@ -1,0 +1,21 @@
+/*
+ * Copyright (c) 2021. stockapp.
+ * Proprietary source code; any copy or modification is prohibited.
+ *
+ * @author Moulaye Abderrahmane <moolsbytheway@gmail.com>
+ *
+ */
+
+package com.stockapp.stockapp_backend;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+@SpringBootApplication
+public class Application extends SpringBootServletInitializer {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
