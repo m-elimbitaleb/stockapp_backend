@@ -15,6 +15,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Data
@@ -48,12 +49,18 @@ public class User {
     private UserRole role;
 
     private Boolean activeUser;
-    private Boolean busy = false;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public TokenUser toTokenUser() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Warehouse warehouse;
+
+    public String getFullName() {
+        return lastName + " " + firstName;
+    }
+
+    public TokenUser toTokenUser(String warehouseName) {
         TokenUser tokenUser = new TokenUser();
         tokenUser.setId(getId());
         tokenUser.setUsername(getUsername());
@@ -63,9 +70,13 @@ public class User {
         tokenUser.setBirthDate(getBirthDate());
         tokenUser.setPhone(getPhone());
         tokenUser.setPassword(null);
-        tokenUser.setLang(getLanguage());
+        tokenUser.setLanguage(getLanguage());
         tokenUser.setRememberMe(false);
+        tokenUser.setCreatedAt(getCreatedAt());
+        tokenUser.setWarehouseName(getWarehouse().getName());
+        tokenUser.setAdmin(UserRole.ADMIN.equals(this.role));
         tokenUser.setPermissions(new String[]{this.role.toString()});
+        tokenUser.setWarehouseName(warehouseName);
         return tokenUser;
     }
 }

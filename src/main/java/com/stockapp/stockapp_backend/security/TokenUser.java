@@ -8,6 +8,7 @@
 
 package com.stockapp.stockapp_backend.security;
 
+import com.stockapp.stockapp_backend.model.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,18 +21,9 @@ import java.util.Collection;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenUser {
-    private Long id;
-    private boolean admin;
+public class TokenUser extends UserDTO {
 
-    private String firstName;
-    private String phone;
-    private String lastName;
-    private LocalDateTime birthDate;
-    private String email;
-    private String username;
-    private String password;
-    private String lang;
+    private boolean admin;
     private boolean rememberMe;
     private String[] permissions;
 

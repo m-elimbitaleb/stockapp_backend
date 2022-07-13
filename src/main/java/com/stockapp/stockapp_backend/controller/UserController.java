@@ -8,14 +8,16 @@
 
 package com.stockapp.stockapp_backend.controller;
 
+import com.stockapp.stockapp_backend.mapper.UserMapper;
 import com.stockapp.stockapp_backend.model.dto.Ack;
-import com.stockapp.stockapp_backend.model.User;
+import com.stockapp.stockapp_backend.model.dto.UserDTO;
 import com.stockapp.stockapp_backend.security.TokenUser;
 import com.stockapp.stockapp_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -23,10 +25,12 @@ public class UserController {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private UserMapper mapper;
 
     @PostMapping
-    public Ack add(@RequestBody User user) {
-        service.save(user);
+    public Ack add(@RequestBody UserDTO user) {
+        service.save(mapper.toModel(user));
         return new Ack();
     }
 
@@ -38,7 +42,7 @@ public class UserController {
     }
 
     @PutMapping("/update-info")
-    public Ack activate(@RequestBody TokenUser user) {
+    public Ack activate(@RequestBody UserDTO user) {
         service.updateUserInfo(user);
         return new Ack();
     }
@@ -51,12 +55,10 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAll() {
-        return service.getNonAdminUsers();
+    public List<UserDTO> getAll() {
+        return service.getNonAdminUsers()
+                .stream().map(it -> mapper.toDTO(it)).collect(Collectors.toList());
     }
-
-
-
 
 
 }

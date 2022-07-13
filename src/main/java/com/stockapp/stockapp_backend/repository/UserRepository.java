@@ -23,15 +23,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
 
-    @Query("select u from User u where u.activeUser = true and u.role = ?1 and " +
-            "(u.busy is null or u.busy = false)")
-    List<User> findByRoleAndNotBusy(UserRole role);
-
-    @Transactional
-    @Modifying
-    @Query("update User u set u.busy = ?2 where u.id = ?1")
-    void updateCouriserBusyStatus(Long id, boolean busy);
-
     @Transactional
     @Modifying
     @Query("update User u set u.activeUser = false where u.id = ?1")
@@ -41,6 +32,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u.id from User u where u.username = ?1 or u.email = ?2 or u.phone = ?3")
     Optional<Long> getUserIdIfExists(String username, String email, String phone);
+
+    @Query("select u.warehouse.id from User u where u.id = ?1")
+    Optional<Long> getUserWarehouseId(Long userId);
+
+    @Query("select u.warehouse.name from User u where u.id = ?1")
+    Optional<String> getUserWarehouseName(Long userId);
+    @Query("select u.warehouse.name from User u where u.username = ?1")
+    Optional<String> getUserWarehouseName(String username);
 
     Optional<User> findByPhone(String phone);
 

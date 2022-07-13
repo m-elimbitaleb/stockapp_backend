@@ -10,8 +10,8 @@ package com.stockapp.stockapp_backend.service;
 
 import com.stockapp.stockapp_backend.enumeration.UserRole;
 import com.stockapp.stockapp_backend.model.User;
+import com.stockapp.stockapp_backend.model.dto.UserDTO;
 import com.stockapp.stockapp_backend.repository.UserRepository;
-import com.stockapp.stockapp_backend.security.TokenUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -129,28 +129,38 @@ public class UserService {
         repository.disableUser(userId);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public void enableUser(Long id) {
         repository.enableUser(id);
     }
 
-    public void updateUserInfo(TokenUser tokenUser) {
-        Optional<User> optionalUser = repository.findById(tokenUser.getId());
-        if (!optionalUser.isPresent()) {
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public void updateUserInfo(UserDTO dto) {
+        Optional<User> optionalUser = repository.findById(dto.getId());
+        if (optionalUser.isEmpty()) {
             throw new IllegalStateException("Trying to update a non-existing user");
         }
 
         User connectedUser = getConnectedUser();
-        if (!tokenUser.getId().equals(connectedUser.getId())) {
+        if (!dto.getId().equals(connectedUser.getId())) {
             throw new IllegalStateException("You can't update information for another user");
         }
         User user = optionalUser.get();
 
-        user.setPhone(tokenUser.getPhone());
-        user.setLastName(tokenUser.getLastName());
-        user.setFirstName(tokenUser.getFirstName());
-        user.setEmail(tokenUser.getEmail());
-        user.setBirthDate(tokenUser.getBirthDate());
+        user.setPhone(dto.getPhone());
+        user.setLastName(dto.getLastName());
+        user.setFirstName(dto.getFirstName());
+        user.setEmail(dto.getEmail());
+        user.setBirthDate(dto.getBirthDate());
 
         repository.save(user);
+    }
+
+    public Optional<Long> getConnectedUserWarehouseId() {
+        return repository.getUserWarehouseId(getConnectedUser().getId());
+    }
+
+    public Optional<String> getConnectedUserWarehouseName() {
+        return repository.getUserWarehouseName(getConnectedUser().getId());
     }
 }

@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static com.stockapp.stockapp_backend.config.JacksonConfiguration.staticObjectMapper;
 
@@ -82,11 +83,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         try {
             UserPrincipal userPrincipal = (UserPrincipal) authResult.getPrincipal();
+            Optional<String> warehouseName = userRepository.getUserWarehouseName(userPrincipal.getUsername());
             String token =
-                    JwtProperties.generateTokenFromPrincipal(userPrincipal, false, tokenUser.isRememberMe());
+                    JwtProperties.generateTokenFromPrincipal(userPrincipal, warehouseName.orElse(""), false, tokenUser.isRememberMe());
 
             String tokenrefresh =
-                    JwtProperties.generateTokenFromPrincipal(userPrincipal, true, tokenUser.isRememberMe());
+                    JwtProperties.generateTokenFromPrincipal(userPrincipal, warehouseName.orElse(""), true, tokenUser.isRememberMe());
 
             // Add token in response
             response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);

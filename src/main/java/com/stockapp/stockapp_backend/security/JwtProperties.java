@@ -35,9 +35,10 @@ public class JwtProperties {
     public static final String HEADER_REFRESH = "X-refresh-token";
 
     public static String generateTokenFromPrincipal(UserPrincipal userPrincipal,
+                                                    String warehouseName,
                                                     boolean isRefresh,
                                                     boolean isRememberMe) throws JsonProcessingException {
-        TokenUser tokenUser = userPrincipal.toTokenUser();
+        TokenUser tokenUser = userPrincipal.toTokenUser(warehouseName);
         return JwtProperties.generateToken(tokenUser, isRefresh, isRememberMe);
     }
 

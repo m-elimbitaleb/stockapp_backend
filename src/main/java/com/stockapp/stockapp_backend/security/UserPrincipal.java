@@ -11,7 +11,6 @@ package com.stockapp.stockapp_backend.security;
 import com.stockapp.stockapp_backend.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -78,8 +77,8 @@ public class UserPrincipal implements UserDetails {
         return user.getActiveUser();
     }
 
-    public TokenUser toTokenUser() {
-        TokenUser tokenUser = user.toTokenUser();
+    public TokenUser toTokenUser(String warehouseName) {
+        TokenUser tokenUser = user.toTokenUser(warehouseName);
         tokenUser.setPermissionsFromGrantedAuthorities(this.getAuthorities());
         return tokenUser;
     }

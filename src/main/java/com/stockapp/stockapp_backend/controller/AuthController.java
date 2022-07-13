@@ -48,8 +48,6 @@ public class AuthController {
     private final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
-    private ObjectMapper mapper;
-    @Autowired
     private UserRepository repository;
 
     @Autowired
@@ -88,8 +86,8 @@ public class AuthController {
                 prefix = PhoneNumberUtil.getInstance().getCountryCodeForRegion(userPass.countryCode);
 
             if (prefix <= 0) {
-                // if no prefix found set it to Mauritania's
-                prefix = 222;
+                // if no prefix found set it to Morocco's
+                prefix = 212;
             }
             userPass.username = "+" + prefix + userPass.username;
         }
@@ -108,7 +106,7 @@ public class AuthController {
     private Token generateToken(User user) {
         Token token = new Token();
         try {
-            TokenUser tokenUser = user.toTokenUser();
+            TokenUser tokenUser = user.toTokenUser(user.getWarehouse().getName());
 
             token.user = tokenUser;
             token.authenticated = true;
