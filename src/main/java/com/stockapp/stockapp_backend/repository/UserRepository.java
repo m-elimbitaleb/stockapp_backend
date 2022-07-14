@@ -28,6 +28,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("update User u set u.activeUser = false where u.id = ?1")
     void disableUser(Long id);
 
+
+    boolean existsByRole(UserRole role);
+
     List<User> findAllByRoleNot(UserRole role);
 
     @Query("select u.id from User u where u.username = ?1 or u.email = ?2 or u.phone = ?3")

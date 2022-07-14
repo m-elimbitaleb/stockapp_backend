@@ -10,15 +10,20 @@ package com.stockapp.stockapp_backend.service;
 
 import com.stockapp.stockapp_backend.enumeration.UserRole;
 import com.stockapp.stockapp_backend.model.User;
+import com.stockapp.stockapp_backend.model.Warehouse;
+import com.stockapp.stockapp_backend.model.dto.Ack;
 import com.stockapp.stockapp_backend.model.dto.UserDTO;
 import com.stockapp.stockapp_backend.repository.UserRepository;
+import com.stockapp.stockapp_backend.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +32,8 @@ public class UserService {
 
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private WarehouseRepository warehouseRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -40,6 +47,12 @@ public class UserService {
         User user = repository.findByUsername(username);
         if (user == null) throw new IllegalStateException("Connected User cannot be found in database");
         return user;
+    }
+
+
+    public Ack checkAnAdminExists() {
+        boolean adminExists = repository.existsByRole(UserRole.ADMIN);
+        return new Ack(adminExists);
     }
 
 
@@ -58,21 +71,36 @@ public class UserService {
         }
     }
 
-    public User registerUser(User user) {
-        Optional<User> optionalOwnerDb = repository.findByPhone(user.getPhone());
+    @Transactional
+    public void initApp(String password) {
+        if (checkAnAdminExists().acknowledged) {
+            throw new IllegalStateException("App already initialized");
+        }
 
-        User theUser = optionalOwnerDb
-                .orElseGet(() -> User.builder()
-                        .username(user.getPhone())
-                        .firstName("")
-                        .lastName("")
-                        .role(UserRole.USER)
-                        .email("stockappapp+user" + user.getPhone() + "@gmail.com")
-                        .phone(user.getPhone()).build());
+        if (password.length() < 8) {
+            throw new IllegalArgumentException("Password must be at least 8 characters");
+        }
+        Warehouse defaultWarehouse = Warehouse.builder()
+                .createdAt(LocalDateTime.now())
+                .name("Default")
+                .location("0,0")
+                .build();
+        warehouseRepository.save(defaultWarehouse);
 
-        theUser.setActiveUser(true);
-        theUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        return repository.save(theUser);
+        User adminUser = User.builder()
+                .username("admin")
+                .firstName("Admin")
+                .lastName("APP")
+                .role(UserRole.ADMIN)
+                .email("admin@local")
+                .createdAt(LocalDateTime.now())
+                .warehouse(Warehouse.builder().id(defaultWarehouse.getId()).build())
+                .language("en")
+                .password(passwordEncoder.encode(password))
+                .activeUser(Boolean.TRUE)
+                .phone("00212600000000").build();
+
+        repository.save(adminUser);
     }
 
     private void updateExistingUser(User user) {
@@ -141,10 +169,6 @@ public class UserService {
             throw new IllegalStateException("Trying to update a non-existing user");
         }
 
-        User connectedUser = getConnectedUser();
-        if (!dto.getId().equals(connectedUser.getId())) {
-            throw new IllegalStateException("You can't update information for another user");
-        }
         User user = optionalUser.get();
 
         user.setPhone(dto.getPhone());

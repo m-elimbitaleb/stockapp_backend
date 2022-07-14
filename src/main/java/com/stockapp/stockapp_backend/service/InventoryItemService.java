@@ -11,12 +11,14 @@ package com.stockapp.stockapp_backend.service;
 import com.stockapp.stockapp_backend.mapper.InventoryItemMapper;
 import com.stockapp.stockapp_backend.model.InventoryItem;
 import com.stockapp.stockapp_backend.model.Warehouse;
+import com.stockapp.stockapp_backend.model.dto.Ack;
 import com.stockapp.stockapp_backend.model.dto.InventoryItemDTO;
 import com.stockapp.stockapp_backend.repository.InventoryItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +36,31 @@ public class InventoryItemService {
     public List<InventoryItem> getAll() {
         Optional<Long> warehouseId = userService.getConnectedUserWarehouseId();
         if(warehouseId.isEmpty()) {
-            throw new IllegalStateException("User doesn' belong to a warehouse");
+            throw new IllegalStateException("User doesn't belong to a warehouse");
         }
         return repository.findByWarehouseId(warehouseId.get());
+    }
+
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public void pickToStorage(Long id, boolean removeFromStorage) {
+        Optional<InventoryItem> item = repository.findById(id);
+        if(item.isEmpty()) throw new IllegalArgumentException("Item not found");
+
+        assertUserIsOperatorOfInventoryItemWarehouse(id);
+
+        item.get().setStorageDate(removeFromStorage ? null : LocalDateTime.now());
+        repository.save(item.get());
+    }
+
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public void pickForCrossDock(Long id, Boolean removeFromCrossDock) {
+        Optional<InventoryItem> item = repository.findById(id);
+        if(item.isEmpty()) throw new IllegalArgumentException("Item not found");
+
+        assertUserIsOperatorOfInventoryItemWarehouse(id);
+
+        item.get().setCrossDock(removeFromCrossDock ? Boolean.FALSE : Boolean.TRUE);
+        repository.save(item.get());
     }
 
     @PreAuthorize("hasAnyAuthority('USER')")

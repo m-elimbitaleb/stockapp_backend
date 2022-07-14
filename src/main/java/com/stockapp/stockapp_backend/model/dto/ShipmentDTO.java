@@ -14,33 +14,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InventoryItemDTO {
-
+public class ShipmentDTO {
     private Long id;
-
-    private String name;
-
-    private String manufacturer;
 
     private String reference;
 
-    private String description;
+    private String shipper;
 
-    private Double purchasePrice;
-
-    /* Twelve digits barcode */
-    private String universalProductCode;
+    private List<Long> items;
 
     private LocalDateTime createdAt;
-
-    private LocalDateTime storageDate;
-
-    private String warehouseName;
 
     private String creatorName;
 

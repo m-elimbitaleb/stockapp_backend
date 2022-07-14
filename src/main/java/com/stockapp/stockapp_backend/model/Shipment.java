@@ -8,47 +8,41 @@
 
 package com.stockapp.stockapp_backend.model;
 
+import com.stockapp.stockapp_backend.model.converter.LongListConverter;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InventoryItem {
+public class Shipment {
 
     @Id
     @ToString.Include
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
-
-    private String manufacturer;
-
     private String reference;
 
-    private String description;
+    private String shipper;
 
-    private Double purchasePrice;
+    private Boolean crossDock;
 
-    /* Twelve digits barcode */
-    private String universalProductCode;
+    @Convert(converter = LongListConverter.class)
+    private List<Long> items;
 
     private LocalDateTime createdAt;
-
-    private LocalDateTime storageDate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Warehouse warehouse;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User createdBy;
 
-    private Boolean crossDock;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Warehouse warehouse;
 
     @PrePersist
     public void prePersist() {

@@ -34,7 +34,7 @@ public class LongListConverter implements AttributeConverter<List<Long>, String>
     @Override
     public List<Long> convertToEntityAttribute(String str) {
         if (StringUtils.isEmpty(str)) return new ArrayList<>();
-        return Arrays.stream(str.split("[" + SEPARATOR + "]")).map(Long::getLong).collect(Collectors.toList());
+        return Arrays.stream(str.split("[" + SEPARATOR + "]")).map(Long::valueOf).collect(Collectors.toList());
     }
 }
 

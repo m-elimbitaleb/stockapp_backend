@@ -50,7 +50,6 @@ public class User {
 
     private Boolean activeUser;
 
-    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -78,5 +77,10 @@ public class User {
         tokenUser.setPermissions(new String[]{this.role.toString()});
         tokenUser.setWarehouseName(warehouseName);
         return tokenUser;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if(this.getId() == null) this.createdAt = LocalDateTime.now();
     }
 }

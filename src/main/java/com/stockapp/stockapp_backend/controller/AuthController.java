@@ -11,6 +11,8 @@ package com.stockapp.stockapp_backend.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.stockapp.stockapp_backend.model.dto.Ack;
+import com.stockapp.stockapp_backend.model.dto.UserDTO;
 import com.stockapp.stockapp_backend.security.JwtProperties;
 import com.stockapp.stockapp_backend.security.TokenUser;
 import com.stockapp.stockapp_backend.model.User;
@@ -18,7 +20,6 @@ import com.stockapp.stockapp_backend.repository.UserRepository;
 import com.stockapp.stockapp_backend.service.UserService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,10 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -57,10 +55,15 @@ public class AuthController {
     private UserService userService;
 
 
-    @PostMapping("/register")
-    public ResponseEntity<Token> registerUser(@RequestBody User user) {
-        User saveUser = userService.registerUser(user);
-        return ResponseEntity.ok(generateToken(saveUser));
+    @GetMapping("admin-exists-ack")
+    public Ack checkAnAdminExists() {
+        return userService.checkAnAdminExists();
+    }
+
+    @PostMapping("/init-app")
+    public ResponseEntity<Ack> initApp(@RequestBody UserDTO user) {
+        userService.initApp(user.getPassword());
+        return ResponseEntity.ok(new Ack());
     }
 
     @PostMapping("/token")

@@ -8,14 +8,13 @@
 
 package com.stockapp.stockapp_backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.stockapp.stockapp_backend.enumeration.MeasureUnit;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
@@ -33,7 +32,6 @@ public class Warehouse {
 
     private String location;
 
-    @CreationTimestamp
     private LocalDateTime createdAt;
 
 }

@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @PutMapping("/update-info")
-    public Ack activate(@RequestBody UserDTO user) {
+    public Ack update(@RequestBody UserDTO user) {
         service.updateUserInfo(user);
         return new Ack();
     }
