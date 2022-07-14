@@ -45,11 +45,9 @@ dependencies {
     implementation 'com.auth0:java-jwt:3.4.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'commons-io:commons-io:2.6'
-    implementation group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.12.22'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
 
-    implementation 'org.zalando.stups:spring-boot-starter-guava-eventbus:0.5.4'
     compileOnly 'org.projectlombok:lombok:1.18.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
 

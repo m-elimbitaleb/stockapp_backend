@@ -44,7 +44,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u.warehouse.name from User u where u.username = ?1")
     Optional<String> getUserWarehouseName(String username);
 
-    Optional<User> findByPhone(String phone);
 
     @Transactional
     @Modifying

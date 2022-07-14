@@ -20,7 +20,6 @@ import com.stockapp.stockapp_backend.repository.UserRepository;
 import com.stockapp.stockapp_backend.service.UserService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -83,17 +82,7 @@ public class AuthController {
             return ResponseEntity.status(status).body(token);
         }
 
-        if (StringUtils.isNumeric(userPass.username) && !userPass.username.startsWith("+")) {
-            int prefix = 0;
-            if (userPass.countryCode != null)
-                prefix = PhoneNumberUtil.getInstance().getCountryCodeForRegion(userPass.countryCode);
 
-            if (prefix <= 0) {
-                // if no prefix found set it to Morocco's
-                prefix = 212;
-            }
-            userPass.username = "+" + prefix + userPass.username;
-        }
         User user = repository.findByUsername(userPass.username);
         if (isUserValid(user, userPass.password)) {
 

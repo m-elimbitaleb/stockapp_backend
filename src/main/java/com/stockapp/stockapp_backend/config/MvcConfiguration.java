@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,15 +26,10 @@ import java.util.List;
 @EnableWebMvc
 public class MvcConfiguration implements WebMvcConfigurer {
 
-    @Value("${stockapp.upload-directory}")
-    private String uploadDirectory;
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler("/static/**")
-
-                .addResourceLocations("file:" + uploadDirectory);
+                .addResourceHandler("/static/**");
     }
 
     @Override
