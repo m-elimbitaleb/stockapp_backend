@@ -8,13 +8,12 @@
 
 package com.stockapp.stockapp_backend.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stockapp.stockapp_backend.enumeration.UserRole;
-import com.stockapp.stockapp_backend.security.TokenUser;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data

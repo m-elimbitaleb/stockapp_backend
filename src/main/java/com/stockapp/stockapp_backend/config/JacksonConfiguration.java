@@ -19,6 +19,18 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class JacksonConfiguration {
+    public static ObjectMapper staticObjectMapper;
+
+    static {
+        staticObjectMapper = new ObjectMapper();
+        staticObjectMapper.registerModule(new JavaTimeModule());
+        staticObjectMapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+        staticObjectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        staticObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        staticObjectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        staticObjectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+    }
+
     @Bean
     public JavaTimeModule javaTimeModule() {
         return new JavaTimeModule();
@@ -35,18 +47,6 @@ public class JacksonConfiguration {
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         return mapper;
-    }
-
-    public static ObjectMapper staticObjectMapper;
-
-    static {
-        staticObjectMapper = new ObjectMapper();
-        staticObjectMapper.registerModule(new JavaTimeModule());
-        staticObjectMapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
-        staticObjectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        staticObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        staticObjectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        staticObjectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     }
 
 }

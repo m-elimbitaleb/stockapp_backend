@@ -9,7 +9,6 @@
 package com.stockapp.stockapp_backend.service;
 
 import com.stockapp.stockapp_backend.mapper.ShipmentMapper;
-import com.stockapp.stockapp_backend.model.InventoryItem;
 import com.stockapp.stockapp_backend.model.Shipment;
 import com.stockapp.stockapp_backend.model.Warehouse;
 import com.stockapp.stockapp_backend.model.dto.ShipmentDTO;
@@ -45,10 +44,11 @@ public class ShipmentService {
         setWarehouse(shipment);
         return repository.save(shipment);
     }
+
     private void setWarehouse(Shipment item) {
 
         Optional<Long> connectedUserWarehouseId = userService.getConnectedUserWarehouseId();
-        if(connectedUserWarehouseId.isEmpty()) {
+        if (connectedUserWarehouseId.isEmpty()) {
             throw new IllegalStateException("Connected user is not connected to a warehouse");
         }
         item.setWarehouse(Warehouse.builder().id(connectedUserWarehouseId.get()).build());

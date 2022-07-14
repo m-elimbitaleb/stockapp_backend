@@ -9,9 +9,8 @@
 package com.stockapp.stockapp_backend.security;
 
 import com.auth0.jwt.JWT;
-import com.stockapp.stockapp_backend.enumeration.UserRole;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stockapp.stockapp_backend.enumeration.UserRole;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -86,7 +85,7 @@ public class JwtProperties {
     public static boolean userHaveProperRole(UserRole role, HttpServletRequest request) {
 
         String appIdHeader = request.getHeader(JwtProperties.APP_ID_HEADER);
-        if("stockapp-admin".equals(appIdHeader)) {
+        if ("stockapp-admin".equals(appIdHeader)) {
             return UserRole.ADMIN.equals(role) || UserRole.USER.equals(role);
         }
         return false;

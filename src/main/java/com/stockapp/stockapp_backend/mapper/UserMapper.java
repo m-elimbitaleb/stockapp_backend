@@ -4,7 +4,6 @@ import com.stockapp.stockapp_backend.AppContext;
 import com.stockapp.stockapp_backend.model.User;
 import com.stockapp.stockapp_backend.model.Warehouse;
 import com.stockapp.stockapp_backend.model.dto.UserDTO;
-import com.stockapp.stockapp_backend.model.dto.WarehouseDTO;
 import com.stockapp.stockapp_backend.repository.WarehouseRepository;
 import org.mapstruct.*;
 

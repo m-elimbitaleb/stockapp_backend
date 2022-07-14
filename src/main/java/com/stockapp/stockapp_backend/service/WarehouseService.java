@@ -9,7 +9,6 @@
 package com.stockapp.stockapp_backend.service;
 
 import com.stockapp.stockapp_backend.mapper.WarehouseMapper;
-import com.stockapp.stockapp_backend.model.User;
 import com.stockapp.stockapp_backend.model.Warehouse;
 import com.stockapp.stockapp_backend.model.dto.WarehouseDTO;
 import com.stockapp.stockapp_backend.repository.WarehouseRepository;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class WarehouseService {

@@ -9,12 +9,11 @@
 package com.stockapp.stockapp_backend.model.converter;
 
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

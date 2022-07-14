@@ -52,7 +52,7 @@ public class InventoryItem {
 
     @PrePersist
     public void prePersist() {
-        if(crossDock == null) crossDock = Boolean.FALSE;
-        if(this.getId() == null) this.createdAt = LocalDateTime.now();
+        if (crossDock == null) crossDock = Boolean.FALSE;
+        if (this.getId() == null) this.createdAt = LocalDateTime.now();
     }
 }

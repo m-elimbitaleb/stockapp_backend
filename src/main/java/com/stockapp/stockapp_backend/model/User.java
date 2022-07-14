@@ -11,11 +11,9 @@ package com.stockapp.stockapp_backend.model;
 import com.stockapp.stockapp_backend.enumeration.UserRole;
 import com.stockapp.stockapp_backend.security.TokenUser;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Entity
 @Data
@@ -81,6 +79,6 @@ public class User {
 
     @PrePersist
     public void prePersist() {
-        if(this.getId() == null) this.createdAt = LocalDateTime.now();
+        if (this.getId() == null) this.createdAt = LocalDateTime.now();
     }
 }

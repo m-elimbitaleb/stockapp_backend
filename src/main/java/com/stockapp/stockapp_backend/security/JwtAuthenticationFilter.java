@@ -11,7 +11,6 @@ package com.stockapp.stockapp_backend.security;
 import com.stockapp.stockapp_backend.exception.UserNotActiveException;
 import com.stockapp.stockapp_backend.model.User;
 import com.stockapp.stockapp_backend.repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;

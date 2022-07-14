@@ -11,7 +11,6 @@ package com.stockapp.stockapp_backend.controller;
 import com.stockapp.stockapp_backend.mapper.UserMapper;
 import com.stockapp.stockapp_backend.model.dto.Ack;
 import com.stockapp.stockapp_backend.model.dto.UserDTO;
-import com.stockapp.stockapp_backend.security.TokenUser;
 import com.stockapp.stockapp_backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

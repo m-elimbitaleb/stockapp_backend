@@ -13,7 +13,6 @@ import com.stockapp.stockapp_backend.model.dto.Ack;
 import com.stockapp.stockapp_backend.model.dto.InventoryItemDTO;
 import com.stockapp.stockapp_backend.service.InventoryItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
