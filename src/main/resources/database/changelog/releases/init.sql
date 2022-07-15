@@ -37,7 +37,7 @@ create table inventory_item
     storage_date           timestamp,
     manufacturer           varchar(255),
     name                   varchar(255),
-    purchase_price         double,
+    purchase_price         float,
     reference              varchar(255),
     description            varchar(510),
     universal_product_code varchar(12),
